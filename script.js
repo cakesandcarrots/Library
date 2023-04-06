@@ -6,6 +6,38 @@ function Book(title, author, pages) {
     this.pages = pages;
 }
 
+
+const delbutton = document.querySelectorAll('.deletebook');
+delbutton.addEventListener('click', (event) => {
+
+
+})
+
+
+function bookdisplay() {
+    const booktable = document.querySelector(".booktable")
+    for (var i = 0; i < myLibrary.length; i++) {
+        const bookrow = booktable.insertRow();
+        const titlecol = bookrow.insertCell();
+        const authorcol = bookrow.insertCell();
+        const pagecol = bookrow.insertCell();
+        const readbutton = bookrow.insertCell();
+        const button = document.createElement("button");
+        button.textContent = "Delete";
+        button.className = "deletebook";
+        readbutton.appendChild(button);
+        titlecol.textContent = myLibrary[i].title;
+        authorcol.textContent = myLibrary[i].author;
+        pagecol.textContent = myLibrary[i].pages;
+
+    }
+    while (booktable.rows.length > myLibrary.length + 1) {
+        booktable.deleteRow(1);
+    }
+
+
+
+}
 const addbooks = document.querySelector(".addbooks");
 const formview = document.querySelector(".bookdetails");
 
@@ -18,6 +50,8 @@ function addBookToLibrary() {
     page = pageno.value;
     const newbook = new Book(booktitle, author, page);
     myLibrary.push(newbook);
+    bookdisplay();
+
 }
 
 
@@ -25,9 +59,7 @@ function addBookToLibrary() {
 formview.addEventListener('submit', (event) => {
     event.preventDefault();
     addBookToLibrary();
-    for (let i = 0; i < myLibrary.length; i++) {
-        console.log(myLibrary[i]);
-    }
+
 });
 
 
@@ -44,5 +76,6 @@ addbooks.addEventListener('click', () => {
 
 
 });
+
 
 

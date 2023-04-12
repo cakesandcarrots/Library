@@ -4,33 +4,56 @@ function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.readstatus = 0;
 }
 
 
-const delbutton = document.querySelectorAll('.deletebook');
-delbutton.addEventListener('click', (event) => {
-
-
-})
 
 
 function bookdisplay() {
+    console.log(myLibrary[0]);
     const booktable = document.querySelector(".booktable")
-    for (var i = 0; i < myLibrary.length; i++) {
+    for (let i = 0; i < myLibrary.length; i++) {
+
         const bookrow = booktable.insertRow();
         const titlecol = bookrow.insertCell();
         const authorcol = bookrow.insertCell();
         const pagecol = bookrow.insertCell();
-        const readbutton = bookrow.insertCell();
+        let readcheck = bookrow.insertCell();
+        const delbutton = bookrow.insertCell();
         const button = document.createElement("button");
+        let check = document.createElement("input")
+        check.type = "checkbox";
         button.textContent = "Delete";
         button.className = "deletebook";
-        readbutton.appendChild(button);
+        button.addEventListener('click', (event) => {
+            myLibrary.splice(i, 1);
+            bookdisplay();
+        })
+
+        check.addEventListener('change', (event) => {
+            if (check.checked === true) {
+                myLibrary[i].readstatus = 1;
+            }
+            else {
+                myLibrary[i].readstatus = 0;
+
+            }
+            bookdisplay();
+
+        })
+        if (myLibrary[i].readstatus === 1) {
+            check.checked = 1;
+        }
+        delbutton.appendChild(button);
+        readcheck.appendChild(check);
         titlecol.textContent = myLibrary[i].title;
         authorcol.textContent = myLibrary[i].author;
         pagecol.textContent = myLibrary[i].pages;
 
     }
+
+    //ensures that correct no of books are stored, length+1 cause 0th value is header
     while (booktable.rows.length > myLibrary.length + 1) {
         booktable.deleteRow(1);
     }
